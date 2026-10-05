@@ -1,43 +1,38 @@
 appId: com.413.app
 productName: 413
+copyright: 413
 directories:
   buildResources: build
+  output: release
 files:
   - '!**/.vscode/*'
   - '!src/*'
+  - '!tests/**'
+  - '!release/**'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!drizzle.config.ts'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,CHANGELOG.md,README.md,PLAN.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+# Las migraciones SQL se leen del disco en tiempo de ejecución: deben quedar fuera del asar.
+# better-sqlite3 (módulo nativo) lo desempaqueta electron-builder automáticamente.
 asarUnpack:
   - resources/**
 win:
   executableName: 413
-nsis:
-  artifactName: ${name}-${version}-setup.${ext}
-  shortcutName: ${productName}
-  uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
-mac:
-  entitlementsInherit: build/entitlements.mac.plist
-  extendInfo:
-    - NSCameraUsageDescription: Application requests access to the device's camera.
-    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
-  notarize: false
-dmg:
-  artifactName: ${name}-${version}.${ext}
-linux:
   target:
-    - AppImage
-    - snap
-    - deb
-  maintainer: electronjs.org
-  category: Utility
-appImage:
-  artifactName: ${name}-${version}.${ext}
+    - target: nsis
+      arch:
+        - x64
+nsis:
+  artifactName: 413-Setup-${version}.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  shortcutName: 413
+  uninstallDisplayName: 413
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  # Al desinstalar NO se borran los datos (%APPDATA%\413): la base y las copias se conservan.
+  deleteAppDataOnUninstall: false
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates

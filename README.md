@@ -27,8 +27,11 @@ La base de datos vive en `%APPDATA%\413\413.db`.
 [x] Paso 7  — Gastos
 [x] Paso 8  — Dashboard y reportes
 [x] Paso 9  — Backup / restauración / CSV
-[ ] Paso 10 — Pruebas finales + instalador probado en equipo limpio
+[~] Paso 10 — Pruebas finales + instalador (generado; falta probarlo en un Windows limpio)
 ```
 
+## Instalador
 
+`npm run build:win` genera `release\413-Setup-1.0.0.exe`. Al desinstalar no se borran los datos (`%APPDATA%\413`).
 
+Pendiente antes de entregar: instalarlo en un Windows limpio y confirmar el primer arranque.
