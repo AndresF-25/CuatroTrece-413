@@ -1,14 +1,34 @@
-import { Store } from 'lucide-react'
+import { useState } from 'react'
+import { AuthProvider, useAuth } from './auth/AuthContext'
+import { MainLayout, NAV, type PageId } from './layouts/MainLayout'
+import { LoginPage, SetupPage } from './pages/AuthPages'
+import { Card } from './components/ui'
+
+function Router(): React.JSX.Element | null {
+  const { loading, needsSetup, user } = useAuth()
+  const [page, setPage] = useState<PageId>('dashboard')
+
+  if (loading) return null
+  if (needsSetup) return <SetupPage />
+  if (!user) return <LoginPage />
+
+  const label = NAV.find((n) => n.id === page)?.label
+  return (
+    <MainLayout page={page} onNavigate={setPage}>
+      <Card>
+        <p className="text-slate-500">
+          Módulo «{label}»: pendiente de desarrollar en los próximos pasos.
+        </p>
+      </Card>
+    </MainLayout>
+  )
+}
 
 function App(): React.JSX.Element {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="text-center">
-        <Store className="mx-auto mb-3 h-10 w-10 text-slate-700" />
-        <h1 className="text-3xl font-semibold">413</h1>
-        <p className="mt-1 text-slate-500">Sistema de contabilidad local</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
   )
 }
 

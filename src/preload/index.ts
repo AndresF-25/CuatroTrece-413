@@ -1,22 +1,21 @@
-import { contextBridge } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge, ipcRenderer } from 'electron'
+import type { ApiResult, AuthStatus, SessionUser } from '../shared/types'
 
-// Custom APIs for renderer
-const api = {}
+const call = <T>(channel: string, input?: unknown): Promise<ApiResult<T>> =>
+  ipcRenderer.invoke(channel, input)
 
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
-    console.error(error)
+// Lista cerrada de operaciones que el renderer puede pedir al proceso main.
+const api = {
+  auth: {
+    status: () => call<AuthStatus>('auth:status'),
+    setup: (input: { businessName: string; name: string; username: string; password: string }) =>
+      call<SessionUser>('auth:setup', input),
+    login: (input: { username: string; password: string }) =>
+      call<SessionUser>('auth:login', input),
+    logout: () => call<null>('auth:logout')
   }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
 }
+
+export type Api = typeof api
+
+contextBridge.exposeInMainWorld('api', api)

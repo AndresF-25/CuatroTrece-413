@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { closeDb, getDb } from './db/instance'
+import { registerIpc } from './ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -55,6 +56,7 @@ app.whenReady().then(() => {
   })
 
   getDb() // abre la base, aplica migraciones y datos base
+  registerIpc()
 
   createWindow()
 
