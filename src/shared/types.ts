@@ -133,6 +133,24 @@ export interface SaleDetail extends SaleListRow {
   items: SaleItemRow[]
 }
 
+// ---------- Gastos ----------
+
+export interface ExpenseRow {
+  id: number
+  expenseCategoryId: number
+  categoryName: string
+  description: string
+  amount: number
+  expenseDate: string
+  paymentMethodId: number
+  paymentMethodName: string
+  notes: string | null
+  status: DocStatus
+  voidedAt: string | null
+  voidReason: string | null
+  userName: string
+}
+
 export interface InventoryRow {
   variantId: number
   productId: number

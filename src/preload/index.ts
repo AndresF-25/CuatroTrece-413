@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import type {
   ApiResult,
   AuthStatus,
+  ExpenseRow,
   InventoryFilters,
   InventoryRow,
   InventorySummary,
@@ -34,6 +35,15 @@ interface ProductData {
   name: string
   reference: string
   description?: string | null
+}
+
+interface ExpenseData {
+  expenseCategoryId: number
+  description: string
+  amount: number
+  expenseDate: string
+  paymentMethodId: number
+  notes?: string | null
 }
 
 // Lista cerrada de operaciones que el renderer puede pedir al proceso main.
@@ -98,6 +108,18 @@ const api = {
     }) => call<SaleListRow[]>('sale:list', filter ?? {}),
     get: (id: number) => call<SaleDetail>('sale:get', { id }),
     void: (id: number, reason: string) => call<void>('sale:void', { id, reason })
+  },
+  expense: {
+    create: (input: ExpenseData) => call<{ id: number }>('expense:create', input),
+    update: (id: number, data: ExpenseData) => call<void>('expense:update', { id, data }),
+    void: (id: number, reason: string) => call<void>('expense:void', { id, reason }),
+    list: (filter?: {
+      from?: string
+      to?: string
+      categoryId?: number
+      paymentMethodId?: number
+      status?: 'ACTIVE' | 'VOIDED'
+    }) => call<ExpenseRow[]>('expense:list', filter ?? {})
   },
   inventory: {
     list: (filters?: InventoryFilters) => call<InventoryRow[]>('inventory:list', filters ?? {}),

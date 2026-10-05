@@ -1,4 +1,4 @@
-﻿# 413 — Contabilidad local
+# 413 — Contabilidad local
 
 Aplicación de escritorio (Windows) para registrar ventas, compras, gastos e inventario del negocio 413 y conocer sus ganancias. Funciona 100 % local. El plan completo está en [PLAN.md](PLAN.md).
 
@@ -24,7 +24,7 @@ La base de datos vive en `%APPDATA%\413\413.db`.
 [x] Paso 4  — Catálogo + generador de variantes
 [x] Paso 5  — Compras + inventario (costo promedio)
 [x] Paso 6  — Ventas + anulación
-[ ] Paso 7  — Gastos
+[x] Paso 7  — Gastos
 [ ] Paso 8  — Dashboard y reportes
 [ ] Paso 9  — Backup / restauración / CSV
 [ ] Paso 10 — Pruebas finales + instalador probado en equipo limpio

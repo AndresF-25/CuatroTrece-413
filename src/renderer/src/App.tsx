@@ -5,6 +5,7 @@ import { MainLayout } from './layouts/MainLayout'
 import { NAV, type PageId } from './layouts/nav'
 import { LoginPage, SetupPage } from './pages/AuthPages'
 import { Card } from './components/ui'
+import { ExpensesPage } from './pages/ExpensesPage'
 import { InventoryPage } from './pages/InventoryPage'
 import { ProductsPage } from './pages/ProductsPage'
 import { PurchasesPage } from './pages/PurchasesPage'
@@ -28,6 +29,8 @@ function Router(): React.JSX.Element | null {
         <PurchasesPage />
       ) : page === 'sales' ? (
         <SalesPage />
+      ) : page === 'expenses' ? (
+        <ExpensesPage />
       ) : page === 'inventory' ? (
         <InventoryPage />
       ) : page === 'settings' ? (
