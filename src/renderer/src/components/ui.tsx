@@ -40,6 +40,24 @@ export function Field({
   )
 }
 
+/** Fila "etiqueta … valor" para resúmenes y totales. */
+export function SummaryRow({
+  label,
+  value,
+  bold
+}: {
+  label: string
+  value: string
+  bold?: boolean
+}): React.JSX.Element {
+  return (
+    <div className={clsx('flex justify-between', bold && 'text-base font-semibold')}>
+      <span className={bold ? '' : 'text-slate-600'}>{label}</span>
+      <span>{value}</span>
+    </div>
+  )
+}
+
 export function Select({
   label,
   children,

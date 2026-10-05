@@ -11,6 +11,8 @@ import type {
   ProductRow,
   PurchaseDetail,
   PurchaseListRow,
+  SaleDetail,
+  SaleListRow,
   SessionUser,
   Supplier,
   VariantRow
@@ -78,6 +80,24 @@ const api = {
       call<PurchaseListRow[]>('purchase:list', filter ?? {}),
     get: (id: number) => call<PurchaseDetail>('purchase:get', { id }),
     void: (id: number, reason: string) => call<void>('purchase:void', { id, reason })
+  },
+  sale: {
+    create: (input: {
+      saleDate: string
+      customerName?: string | null
+      notes?: string | null
+      paymentMethodId: number
+      discount: number
+      items: { variantId: number; quantity: number; unitPrice: number }[]
+    }) => call<{ id: number; number: string }>('sale:create', input),
+    list: (filter?: {
+      from?: string
+      to?: string
+      status?: 'COMPLETED' | 'VOIDED'
+      paymentMethodId?: number
+    }) => call<SaleListRow[]>('sale:list', filter ?? {}),
+    get: (id: number) => call<SaleDetail>('sale:get', { id }),
+    void: (id: number, reason: string) => call<void>('sale:void', { id, reason })
   },
   inventory: {
     list: (filters?: InventoryFilters) => call<InventoryRow[]>('inventory:list', filters ?? {}),

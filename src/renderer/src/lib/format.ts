@@ -16,6 +16,11 @@ export function todayLocal(): string {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
+/** Primer día del mes actual como 'YYYY-MM-DD'. */
+export function monthStartLocal(): string {
+  return `${todayLocal().slice(0, 8)}01`
+}
+
 /** '2026-10-05' → '05/10/2026'. */
 export function formatDate(date: string): string {
   const [y, m, d] = date.split('-')

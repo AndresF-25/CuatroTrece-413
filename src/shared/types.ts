@@ -88,6 +88,51 @@ export interface PurchaseDetail extends PurchaseListRow {
   items: PurchaseItemRow[]
 }
 
+// ---------- Ventas ----------
+
+export type SaleStatus = 'COMPLETED' | 'VOIDED'
+
+export interface SaleListRow {
+  id: number
+  number: string
+  saleDate: string
+  customerName: string | null
+  paymentMethodId: number
+  paymentMethodName: string
+  units: number
+  subtotal: number
+  discount: number
+  total: number
+  totalCost: number
+  /** total − costo de lo vendido (calculado, no almacenado) */
+  grossProfit: number
+  status: SaleStatus
+  userName: string
+}
+
+export interface SaleItemRow {
+  id: number
+  variantId: number
+  sku: string
+  productName: string
+  colorName: string
+  sizeName: string
+  quantity: number
+  unitPrice: number
+  lineSubtotal: number
+  lineDiscount: number
+  lineTotal: number
+  unitCost: number
+  lineCost: number
+}
+
+export interface SaleDetail extends SaleListRow {
+  notes: string | null
+  voidedAt: string | null
+  voidReason: string | null
+  items: SaleItemRow[]
+}
+
 export interface InventoryRow {
   variantId: number
   productId: number

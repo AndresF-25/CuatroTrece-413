@@ -5,7 +5,7 @@ import type { InventoryRow, PurchaseListRow, Supplier } from '../../../shared/ty
 import { computePurchaseCosts } from '../../../shared/money'
 import { errorMessage, unwrap, useLoad } from '../lib/api'
 import { formatCOP, formatDate, toInt, todayLocal } from '../lib/format'
-import { Alert, Badge, Button, Card, Field, Select } from '../components/ui'
+import { Alert, Badge, Button, Card, Field, Select, SummaryRow } from '../components/ui'
 import { Modal } from '../components/Modal'
 import { VariantPicker } from '../components/VariantPicker'
 
@@ -287,11 +287,11 @@ function PurchaseForm({
         )}
         <Card className="space-y-2 text-sm">
           <h4 className="font-medium">Resumen</h4>
-          <Row label="Unidades" value={String(units)} />
-          <Row label="Mercancía" value={formatCOP(merchandise)} />
-          {!opening && <Row label="Envío y otros" value={formatCOP(extra)} />}
+          <SummaryRow label="Unidades" value={String(units)} />
+          <SummaryRow label="Mercancía" value={formatCOP(merchandise)} />
+          {!opening && <SummaryRow label="Envío y otros" value={formatCOP(extra)} />}
           <div className="border-t border-slate-200 pt-2">
-            <Row label="Costo total real" value={formatCOP(merchandise + extra)} bold />
+            <SummaryRow label="Costo total real" value={formatCOP(merchandise + extra)} bold />
           </div>
         </Card>
       </div>
@@ -306,15 +306,6 @@ function PurchaseForm({
         </Button>
       </div>
     </form>
-  )
-}
-
-function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }): React.JSX.Element {
-  return (
-    <div className={clsx('flex justify-between', bold && 'text-base font-semibold')}>
-      <span className={bold ? '' : 'text-slate-600'}>{label}</span>
-      <span>{value}</span>
-    </div>
   )
 }
 
@@ -388,11 +379,11 @@ function PurchaseDetailModal({
           </table>
 
           <div className="ml-auto w-64 space-y-1">
-            <Row label="Mercancía" value={formatCOP(data.merchandiseTotal)} />
-            <Row label="Envío" value={formatCOP(data.shippingCost)} />
-            <Row label="Otros costos" value={formatCOP(data.otherCost)} />
+            <SummaryRow label="Mercancía" value={formatCOP(data.merchandiseTotal)} />
+            <SummaryRow label="Envío" value={formatCOP(data.shippingCost)} />
+            <SummaryRow label="Otros costos" value={formatCOP(data.otherCost)} />
             <div className="border-t border-slate-200 pt-1">
-              <Row label="Total" value={formatCOP(data.totalCost)} bold />
+              <SummaryRow label="Total" value={formatCOP(data.totalCost)} bold />
             </div>
           </div>
 

@@ -8,6 +8,7 @@ import { Card } from './components/ui'
 import { InventoryPage } from './pages/InventoryPage'
 import { ProductsPage } from './pages/ProductsPage'
 import { PurchasesPage } from './pages/PurchasesPage'
+import { SalesPage } from './pages/SalesPage'
 import { SettingsPage } from './pages/SettingsPage'
 
 function Router(): React.JSX.Element | null {
@@ -25,6 +26,8 @@ function Router(): React.JSX.Element | null {
         <ProductsPage />
       ) : page === 'purchases' ? (
         <PurchasesPage />
+      ) : page === 'sales' ? (
+        <SalesPage />
       ) : page === 'inventory' ? (
         <InventoryPage />
       ) : page === 'settings' ? (
