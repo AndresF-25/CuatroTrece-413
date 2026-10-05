@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Store } from 'lucide-react'
+import logoDark from '../assets/logo-dark.png'
 import { useAuth } from '../auth/useAuth'
 import { Alert, Button, Card, Field } from '../components/ui'
 
@@ -16,7 +16,7 @@ function AuthShell({
     <div className="flex min-h-screen items-center justify-center p-6">
       <Card className="w-full max-w-md">
         <div className="mb-6 text-center">
-          <Store className="mx-auto mb-2 h-9 w-9 text-slate-700" />
+          <img src={logoDark} alt="413" className="mx-auto mb-3 h-36 w-auto" draggable={false} />
           <h1 className="text-2xl font-semibold">{title}</h1>
           <p className="mt-1 text-sm text-slate-500">{subtitle}</p>
         </div>

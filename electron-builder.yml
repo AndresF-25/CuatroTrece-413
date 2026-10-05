@@ -20,6 +20,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: 413
+  icon: build/icon.ico
   target:
     - target: nsis
       arch:

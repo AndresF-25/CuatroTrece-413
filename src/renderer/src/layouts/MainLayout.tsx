@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { LogOut } from 'lucide-react'
 import { clsx } from 'clsx'
+import logoLight from '../assets/logo-light.png'
 import { useAuth } from '../auth/useAuth'
 import { NAV, type PageId } from './nav'
 
@@ -18,7 +19,9 @@ export function MainLayout({
   return (
     <div className="flex h-screen">
       <aside className="flex w-56 shrink-0 flex-col bg-slate-900 text-slate-200">
-        <div className="px-5 py-4 text-xl font-semibold text-white">{businessName}</div>
+        <div className="flex justify-center px-5 py-5">
+          <img src={logoLight} alt={businessName} title={businessName} className="h-28 w-auto" draggable={false} />
+        </div>
         <nav className="flex-1 space-y-1 px-2">
           {NAV.map(({ id, label, icon: Icon }) => (
             <button
