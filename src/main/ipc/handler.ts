@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { z } from 'zod'
-import { AppError } from '../lib/errors'
+import { AppError, translateDbError } from '../lib/errors'
 import type { ApiResult, Role, SessionUser } from '../../shared/types'
 
 let currentUser: SessionUser | null = null
@@ -12,7 +12,7 @@ export const session = {
   }
 }
 
-interface Options {
+export interface HandlerOptions {
   /** 'public' = sin sesión; lista de roles = requiere sesión con uno de esos roles. */
   access: 'public' | Role[]
 }
@@ -24,7 +24,7 @@ interface Options {
 export function handle<S extends z.ZodType, R>(
   channel: string,
   schema: S,
-  options: Options,
+  options: HandlerOptions,
   fn: (input: z.infer<S>, user: SessionUser | null) => R
 ): void {
   ipcMain.handle(channel, (_event, raw: unknown): ApiResult<R> => {
@@ -40,6 +40,8 @@ export function handle<S extends z.ZodType, R>(
       return { ok: true, data: fn(input, user) }
     } catch (error) {
       if (error instanceof AppError) return { ok: false, error: error.message }
+      const dbError = translateDbError(error)
+      if (dbError) return { ok: false, error: dbError.message }
       if (error instanceof z.ZodError) {
         return { ok: false, error: error.issues[0]?.message ?? 'Datos inválidos' }
       }

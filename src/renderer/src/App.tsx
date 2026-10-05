@@ -1,8 +1,12 @@
 import { useState } from 'react'
-import { AuthProvider, useAuth } from './auth/AuthContext'
-import { MainLayout, NAV, type PageId } from './layouts/MainLayout'
+import { AuthProvider } from './auth/AuthContext'
+import { useAuth } from './auth/useAuth'
+import { MainLayout } from './layouts/MainLayout'
+import { NAV, type PageId } from './layouts/nav'
 import { LoginPage, SetupPage } from './pages/AuthPages'
 import { Card } from './components/ui'
+import { ProductsPage } from './pages/ProductsPage'
+import { SettingsPage } from './pages/SettingsPage'
 
 function Router(): React.JSX.Element | null {
   const { loading, needsSetup, user } = useAuth()
@@ -15,11 +19,17 @@ function Router(): React.JSX.Element | null {
   const label = NAV.find((n) => n.id === page)?.label
   return (
     <MainLayout page={page} onNavigate={setPage}>
-      <Card>
-        <p className="text-slate-500">
-          Módulo «{label}»: pendiente de desarrollar en los próximos pasos.
-        </p>
-      </Card>
+      {page === 'products' ? (
+        <ProductsPage />
+      ) : page === 'settings' ? (
+        <SettingsPage />
+      ) : (
+        <Card>
+          <p className="text-slate-500">
+            Módulo «{label}»: pendiente de desarrollar en los próximos pasos.
+          </p>
+        </Card>
+      )}
     </MainLayout>
   )
 }

@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Store } from 'lucide-react'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import { Alert, Button, Card, Field } from '../components/ui'
 
 function AuthShell({

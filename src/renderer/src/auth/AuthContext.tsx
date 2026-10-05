@@ -1,45 +1,28 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
-import type { AuthStatus, SessionUser } from '../../../shared/types'
-
-interface AuthState {
-  loading: boolean
-  needsSetup: boolean
-  businessName: string
-  user: SessionUser | null
-  refresh: () => Promise<void>
-  login: (username: string, password: string) => Promise<string | null>
-  setup: (input: {
-    businessName: string
-    name: string
-    username: string
-    password: string
-  }) => Promise<string | null>
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthState | null>(null)
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
+import type { AuthStatus } from '../../../shared/types'
+import { AuthContext, type AuthState } from './useAuth'
 
 export function AuthProvider({ children }: { children: ReactNode }): React.JSX.Element {
   const [status, setStatus] = useState<AuthStatus | null>(null)
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (): Promise<void> => {
     const res = await window.api.auth.status()
     if (res.ok) setStatus(res.data)
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refresh()
   }, [refresh])
 
-  /** Devuelve un mensaje de error, o null si salió bien. */
-  const login: AuthState['login'] = async (username, password) => {
+  const login = async (username: string, password: string): Promise<string | null> => {
     const res = await window.api.auth.login({ username, password })
     if (!res.ok) return res.error
     await refresh()
     return null
   }
 
-  const setup: AuthState['setup'] = async (input) => {
+  const setup = async (input: Parameters<AuthState['setup']>[0]): Promise<string | null> => {
     const res = await window.api.auth.setup(input)
     if (!res.ok) return res.error
     await refresh()
@@ -63,10 +46,4 @@ export function AuthProvider({ children }: { children: ReactNode }): React.JSX.E
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth(): AuthState {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth debe usarse dentro de AuthProvider')
-  return ctx
 }

@@ -40,6 +40,46 @@ export function Field({
   )
 }
 
+export function Select({
+  label,
+  children,
+  ...props
+}: React.SelectHTMLAttributes<HTMLSelectElement> & { label: string }): React.JSX.Element {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-sm font-medium text-slate-700">{label}</span>
+      <select
+        {...props}
+        className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-slate-900 focus:ring-1 focus:ring-slate-900"
+      >
+        {children}
+      </select>
+    </label>
+  )
+}
+
+export function Badge({
+  tone = 'gray',
+  children
+}: {
+  tone?: 'gray' | 'green' | 'red' | 'amber'
+  children: ReactNode
+}): React.JSX.Element {
+  return (
+    <span
+      className={clsx(
+        'inline-block rounded-full px-2 py-0.5 text-xs font-medium',
+        tone === 'gray' && 'bg-slate-100 text-slate-700',
+        tone === 'green' && 'bg-green-100 text-green-800',
+        tone === 'red' && 'bg-red-100 text-red-800',
+        tone === 'amber' && 'bg-amber-100 text-amber-800'
+      )}
+    >
+      {children}
+    </span>
+  )
+}
+
 export function Alert({
   kind = 'error',
   children

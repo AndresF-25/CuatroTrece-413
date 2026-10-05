@@ -1,8 +1,32 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import type { ApiResult, AuthStatus, SessionUser } from '../shared/types'
+import type {
+  ApiResult,
+  AuthStatus,
+  LookupItem,
+  LookupKind,
+  ProductRow,
+  SessionUser,
+  Supplier,
+  VariantRow
+} from '../shared/types'
 
 const call = <T>(channel: string, input?: unknown): Promise<ApiResult<T>> =>
   ipcRenderer.invoke(channel, input)
+
+interface SupplierData {
+  name: string
+  phone?: string | null
+  email?: string | null
+  address?: string | null
+  notes?: string | null
+}
+
+interface ProductData {
+  categoryId: number
+  name: string
+  reference: string
+  description?: string | null
+}
 
 // Lista cerrada de operaciones que el renderer puede pedir al proceso main.
 const api = {
@@ -13,6 +37,39 @@ const api = {
     login: (input: { username: string; password: string }) =>
       call<SessionUser>('auth:login', input),
     logout: () => call<null>('auth:logout')
+  },
+  lookup: {
+    list: (kind: LookupKind) => call<LookupItem[]>('lookup:list', { kind }),
+    create: (kind: LookupKind, name: string) => call<LookupItem>('lookup:create', { kind, name }),
+    update: (kind: LookupKind, id: number, name: string) =>
+      call<void>('lookup:update', { kind, id, name }),
+    setActive: (kind: LookupKind, id: number, active: boolean) =>
+      call<void>('lookup:setActive', { kind, id, active })
+  },
+  supplier: {
+    list: () => call<Supplier[]>('supplier:list'),
+    create: (data: SupplierData) => call<Supplier>('supplier:create', data),
+    update: (id: number, data: SupplierData) => call<void>('supplier:update', { id, data }),
+    setActive: (id: number, active: boolean) => call<void>('supplier:setActive', { id, active })
+  },
+  product: {
+    list: (search?: string) => call<ProductRow[]>('product:list', { search }),
+    create: (data: ProductData) => call<{ id: number }>('product:create', data),
+    update: (id: number, data: ProductData) => call<void>('product:update', { id, data }),
+    setActive: (id: number, active: boolean) => call<void>('product:setActive', { id, active })
+  },
+  variant: {
+    list: (productId: number) => call<VariantRow[]>('variant:list', { productId }),
+    generate: (input: {
+      productId: number
+      colorIds: number[]
+      sizeIds: number[]
+      salePrice: number
+      minStock: number
+    }) => call<{ created: number; skipped: number }>('variant:generate', input),
+    update: (id: number, data: { sku: string; salePrice: number; minStock: number }) =>
+      call<void>('variant:update', { id, data }),
+    setActive: (id: number, active: boolean) => call<void>('variant:setActive', { id, active })
   }
 }
 

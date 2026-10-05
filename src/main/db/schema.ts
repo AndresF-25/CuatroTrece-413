@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { sql } from 'drizzle-orm'
 import { check, index, integer, sqliteTable, text, unique } from 'drizzle-orm/sqlite-core'
 
