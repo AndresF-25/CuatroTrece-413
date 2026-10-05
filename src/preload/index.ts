@@ -2,9 +2,15 @@ import { contextBridge, ipcRenderer } from 'electron'
 import type {
   ApiResult,
   AuthStatus,
+  InventoryFilters,
+  InventoryRow,
+  InventorySummary,
   LookupItem,
   LookupKind,
+  MovementRow,
   ProductRow,
+  PurchaseDetail,
+  PurchaseListRow,
   SessionUser,
   Supplier,
   VariantRow
@@ -57,6 +63,26 @@ const api = {
     create: (data: ProductData) => call<{ id: number }>('product:create', data),
     update: (id: number, data: ProductData) => call<void>('product:update', { id, data }),
     setActive: (id: number, active: boolean) => call<void>('product:setActive', { id, active })
+  },
+  purchase: {
+    create: (input: {
+      supplierId?: number | null
+      purchaseDate: string
+      notes?: string | null
+      shippingCost: number
+      otherCost: number
+      isOpeningStock?: boolean
+      items: { variantId: number; quantity: number; unitCost: number }[]
+    }) => call<{ id: number; number: string }>('purchase:create', input),
+    list: (filter?: { from?: string; to?: string }) =>
+      call<PurchaseListRow[]>('purchase:list', filter ?? {}),
+    get: (id: number) => call<PurchaseDetail>('purchase:get', { id }),
+    void: (id: number, reason: string) => call<void>('purchase:void', { id, reason })
+  },
+  inventory: {
+    list: (filters?: InventoryFilters) => call<InventoryRow[]>('inventory:list', filters ?? {}),
+    summary: () => call<InventorySummary>('inventory:summary'),
+    movements: (variantId: number) => call<MovementRow[]>('inventory:movements', { variantId })
   },
   variant: {
     list: (productId: number) => call<VariantRow[]>('variant:list', { productId }),

@@ -22,11 +22,12 @@ La base de datos vive en `%APPDATA%\413\413.db`.
 [x] Paso 2  — Base de datos (better-sqlite3 + Drizzle + migraciones + seed)
 [x] Paso 3  — Primer arranque, login, IPC seguro, layout
 [x] Paso 4  — Catálogo + generador de variantes
-[ ] Paso 5  — Compras + inventario (costo promedio)
+[x] Paso 5  — Compras + inventario (costo promedio)
 [ ] Paso 6  — Ventas + anulación
 [ ] Paso 7  — Gastos
 [ ] Paso 8  — Dashboard y reportes
 [ ] Paso 9  — Backup / restauración / CSV
 [ ] Paso 10 — Pruebas finales + instalador probado en equipo limpio
 ```
+
 
