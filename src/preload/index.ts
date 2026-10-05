@@ -2,14 +2,17 @@ import { contextBridge, ipcRenderer } from 'electron'
 import type {
   ApiResult,
   AuthStatus,
+  DashboardData,
   ExpenseRow,
   InventoryFilters,
+  InventoryReport,
   InventoryRow,
   InventorySummary,
   LookupItem,
   LookupKind,
   MovementRow,
   ProductRow,
+  PeriodReport,
   PurchaseDetail,
   PurchaseListRow,
   SaleDetail,
@@ -120,6 +123,11 @@ const api = {
       paymentMethodId?: number
       status?: 'ACTIVE' | 'VOIDED'
     }) => call<ExpenseRow[]>('expense:list', filter ?? {})
+  },
+  report: {
+    period: (from: string, to: string) => call<PeriodReport>('report:period', { from, to }),
+    dashboard: (today: string) => call<DashboardData>('report:dashboard', { today }),
+    inventory: () => call<InventoryReport>('report:inventory')
   },
   inventory: {
     list: (filters?: InventoryFilters) => call<InventoryRow[]>('inventory:list', filters ?? {}),

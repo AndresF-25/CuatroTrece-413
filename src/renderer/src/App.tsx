@@ -5,10 +5,12 @@ import { MainLayout } from './layouts/MainLayout'
 import { NAV, type PageId } from './layouts/nav'
 import { LoginPage, SetupPage } from './pages/AuthPages'
 import { Card } from './components/ui'
+import { DashboardPage } from './pages/DashboardPage'
 import { ExpensesPage } from './pages/ExpensesPage'
 import { InventoryPage } from './pages/InventoryPage'
 import { ProductsPage } from './pages/ProductsPage'
 import { PurchasesPage } from './pages/PurchasesPage'
+import { ReportsPage } from './pages/ReportsPage'
 import { SalesPage } from './pages/SalesPage'
 import { SettingsPage } from './pages/SettingsPage'
 
@@ -23,7 +25,11 @@ function Router(): React.JSX.Element | null {
   const label = NAV.find((n) => n.id === page)?.label
   return (
     <MainLayout page={page} onNavigate={setPage}>
-      {page === 'products' ? (
+      {page === 'dashboard' ? (
+        <DashboardPage />
+      ) : page === 'reports' ? (
+        <ReportsPage />
+      ) : page === 'products' ? (
         <ProductsPage />
       ) : page === 'purchases' ? (
         <PurchasesPage />

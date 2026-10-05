@@ -9,6 +9,12 @@ export function formatCOP(value: number): string {
   return cop.format(value)
 }
 
+/** 0.496 → "49,6 %"; null (sin ventas) → "—". */
+export function formatPercent(fraction: number | null): string {
+  if (fraction === null) return '—'
+  return `${(fraction * 100).toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`
+}
+
 /** Fecha local de hoy como 'YYYY-MM-DD' (fecha de negocio, no UTC). */
 export function todayLocal(): string {
   const d = new Date()

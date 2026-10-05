@@ -151,6 +151,38 @@ export interface ExpenseRow {
   userName: string
 }
 
+// ---------- Reportes ----------
+
+export interface PeriodReport {
+  from: string
+  to: string
+  sales: { count: number; units: number; total: number; cost: number }
+  grossProfit: number
+  /** utilidad bruta / ventas (fracción); null si no hubo ventas */
+  grossMargin: number | null
+  expenses: { count: number; total: number }
+  netProfit: number
+  netMargin: number | null
+  expensesByCategory: { name: string; total: number; count: number }[]
+  /** Ventas recibidas y gastos pagados por método de pago */
+  cashByMethod: { name: string; sales: number; expenses: number; net: number }[]
+  salesByDay: { date: string; total: number; grossProfit: number }[]
+}
+
+export interface DashboardData {
+  today: PeriodReport
+  week: PeriodReport
+  month: PeriodReport
+  inventory: InventorySummary
+}
+
+export interface InventoryReport {
+  summary: InventorySummary
+  byCategory: { name: string; units: number; valueAtCost: number; valueAtPrice: number }[]
+  lowStock: InventoryRow[]
+  outOfStock: InventoryRow[]
+}
+
 export interface InventoryRow {
   variantId: number
   productId: number
