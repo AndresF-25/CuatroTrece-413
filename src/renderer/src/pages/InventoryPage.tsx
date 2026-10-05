@@ -4,6 +4,7 @@ import type { InventoryRow } from '../../../shared/types'
 import { useLoad } from '../lib/api'
 import { formatCOP } from '../lib/format'
 import { Alert, Badge, Card, Select } from '../components/ui'
+import { ExportButton } from '../components/ExportButton'
 import { Modal } from '../components/Modal'
 
 const MOVEMENT_LABEL = {
@@ -51,6 +52,9 @@ export function InventoryPage(): React.JSX.Element {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <ExportButton kind="inventory" label="Exportar inventario CSV" />
+      </div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-6">
         {cards.map((c) => (
           <Card key={c.label} className="p-4">

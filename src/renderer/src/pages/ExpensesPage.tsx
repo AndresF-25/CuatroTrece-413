@@ -4,6 +4,7 @@ import type { ExpenseRow } from '../../../shared/types'
 import { errorMessage, unwrap, useLoad } from '../lib/api'
 import { formatCOP, formatDate, monthStartLocal, toInt, todayLocal } from '../lib/format'
 import { Alert, Badge, Button, Card, Field, Select } from '../components/ui'
+import { ExportButton } from '../components/ExportButton'
 import { Modal } from '../components/Modal'
 
 export function ExpensesPage(): React.JSX.Element {
@@ -68,7 +69,8 @@ export function ExpensesPage(): React.JSX.Element {
             <option value="VOIDED">Anulados</option>
           </Select>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <ExportButton kind="expenses" range={{ from: from || undefined, to: to || undefined }} />
           <Button onClick={() => setEditing('new')}>
             <Plus className="h-4 w-4" />
             Nuevo gasto

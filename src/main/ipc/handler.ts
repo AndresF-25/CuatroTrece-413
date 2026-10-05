@@ -27,7 +27,7 @@ export function handle<S extends z.ZodType, R>(
   options: HandlerOptions,
   fn: (input: z.infer<S>, user: SessionUser | null) => R
 ): void {
-  ipcMain.handle(channel, (_event, raw: unknown): ApiResult<R> => {
+  ipcMain.handle(channel, async (_event, raw: unknown): Promise<ApiResult<Awaited<R>>> => {
     try {
       const user = session.get()
       if (options.access !== 'public') {
@@ -37,7 +37,7 @@ export function handle<S extends z.ZodType, R>(
         }
       }
       const input = schema.parse(raw)
-      return { ok: true, data: fn(input, user) }
+      return { ok: true, data: await fn(input, user) }
     } catch (error) {
       if (error instanceof AppError) return { ok: false, error: error.message }
       const dbError = translateDbError(error)

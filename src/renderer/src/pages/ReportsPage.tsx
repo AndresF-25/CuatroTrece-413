@@ -6,6 +6,7 @@ import { useLoad } from '../lib/api'
 import { formatCOP, formatDate, formatPercent, todayLocal } from '../lib/format'
 import { Alert, Card, Field, SummaryRow } from '../components/ui'
 import { BarChartCard } from '../components/charts'
+import { ExportButton } from '../components/ExportButton'
 
 type Tab = 'period' | 'inventory'
 type Preset = 'today' | 'week' | 'month' | 'custom'
@@ -87,6 +88,7 @@ function PeriodTab(): React.JSX.Element {
         <span className="ml-auto text-sm text-slate-500">
           {formatDate(from)} – {formatDate(to)}
         </span>
+        <ExportButton kind="period" range={{ from, to }} label="Exportar reporte CSV" />
       </div>
 
       {error && <Alert>{error}</Alert>}
@@ -192,6 +194,9 @@ function InventoryTab(): React.JSX.Element {
 
   return (
     <div className="space-y-4">
+      <div className="flex justify-end">
+        <ExportButton kind="inventory" label="Exportar inventario CSV" />
+      </div>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-5">
         {[
           ['Unidades totales', String(s.units)],

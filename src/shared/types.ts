@@ -151,6 +151,24 @@ export interface ExpenseRow {
   userName: string
 }
 
+// ---------- Copias de seguridad y exportación ----------
+
+export interface BackupFile {
+  name: string
+  path: string
+  kind: 'manual' | 'auto' | 'prerestore'
+  size: number
+  createdAt: string
+}
+
+export interface BackupInfo {
+  dir: string
+  extraDir: string | null
+  backups: BackupFile[]
+}
+
+export type ExportKind = 'sales' | 'purchases' | 'inventory' | 'expenses' | 'period'
+
 // ---------- Reportes ----------
 
 export interface PeriodReport {

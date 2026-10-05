@@ -26,7 +26,7 @@ La base de datos vive en `%APPDATA%\413\413.db`.
 [x] Paso 6  — Ventas + anulación
 [x] Paso 7  — Gastos
 [x] Paso 8  — Dashboard y reportes
-[ ] Paso 9  — Backup / restauración / CSV
+[x] Paso 9  — Backup / restauración / CSV
 [ ] Paso 10 — Pruebas finales + instalador probado en equipo limpio
 ```
 

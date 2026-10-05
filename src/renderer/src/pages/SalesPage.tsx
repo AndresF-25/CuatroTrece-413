@@ -5,6 +5,7 @@ import { useAuth } from '../auth/useAuth'
 import { errorMessage, unwrap, useLoad } from '../lib/api'
 import { formatCOP, formatDate, monthStartLocal, toInt, todayLocal } from '../lib/format'
 import { Alert, Badge, Button, Card, Field, Select, SummaryRow } from '../components/ui'
+import { ExportButton } from '../components/ExportButton'
 import { Modal } from '../components/Modal'
 import { VariantPicker } from '../components/VariantPicker'
 
@@ -76,7 +77,8 @@ export function SalesPage(): React.JSX.Element {
             ))}
           </Select>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <ExportButton kind="sales" range={{ from: from || undefined, to: to || undefined }} />
           <Button onClick={() => setCreating(true)}>
             <Plus className="h-4 w-4" />
             Nueva venta

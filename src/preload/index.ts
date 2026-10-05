@@ -1,9 +1,12 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import type {
   ApiResult,
+  BackupFile,
+  BackupInfo,
   AuthStatus,
   DashboardData,
   ExpenseRow,
+  ExportKind,
   InventoryFilters,
   InventoryReport,
   InventoryRow,
@@ -124,6 +127,16 @@ const api = {
       status?: 'ACTIVE' | 'VOIDED'
     }) => call<ExpenseRow[]>('expense:list', filter ?? {})
   },
+  backup: {
+    info: () => call<BackupInfo>('backup:info'),
+    create: () => call<{ file: BackupFile; extraError: string | null }>('backup:create'),
+    openFolder: () => call<void>('backup:openFolder'),
+    chooseExtraDir: () => call<string | null>('backup:chooseExtraDir'),
+    clearExtraDir: () => call<void>('backup:clearExtraDir'),
+    restore: (path?: string) => call<{ restarting: boolean }>('backup:restore', { path })
+  },
+  exportCsv: (kind: ExportKind, range?: { from?: string; to?: string }) =>
+    call<{ path: string | null }>('export:csv', { kind, ...range }),
   report: {
     period: (from: string, to: string) => call<PeriodReport>('report:period', { from, to }),
     dashboard: (today: string) => call<DashboardData>('report:dashboard', { today }),

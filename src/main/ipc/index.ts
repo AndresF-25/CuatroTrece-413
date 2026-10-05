@@ -1,4 +1,5 @@
 import { registerAuthIpc } from './auth.ipc'
+import { registerBackupIpc } from './backup.ipc'
 import { registerCatalogIpc } from './catalog.ipc'
 import { registerExpenseIpc } from './expense.ipc'
 import { registerPurchaseIpc } from './purchase.ipc'
@@ -12,4 +13,5 @@ export function registerIpc(): void {
   registerSaleIpc()
   registerExpenseIpc()
   registerReportIpc()
+  registerBackupIpc()
 }

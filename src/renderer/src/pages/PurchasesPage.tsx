@@ -6,6 +6,7 @@ import { computePurchaseCosts } from '../../../shared/money'
 import { errorMessage, unwrap, useLoad } from '../lib/api'
 import { formatCOP, formatDate, toInt, todayLocal } from '../lib/format'
 import { Alert, Badge, Button, Card, Field, Select, SummaryRow } from '../components/ui'
+import { ExportButton } from '../components/ExportButton'
 import { Modal } from '../components/Modal'
 import { VariantPicker } from '../components/VariantPicker'
 
@@ -54,6 +55,7 @@ export function PurchasesPage(): React.JSX.Element {
         </div>
         {tab === 'purchases' && (
           <div className="mb-2 flex gap-2">
+            <ExportButton kind="purchases" />
             <Button variant="secondary" onClick={() => setForm('opening')}>
               <PackagePlus className="h-4 w-4" />
               Inventario inicial
